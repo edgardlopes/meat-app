@@ -1,0 +1,126 @@
+<!--INICIO DO CONTEUDO-->
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+        
+        <form [formGroup]="orderForm" novalidate>
+          <div class="row">
+            <div class="col-xs-12">
+              <h2 class="page-header">
+                <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
+              </h2>
+            </div>
+          </div>                
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-9">
+              <p class="lead">Seus dados:</p>
+            </div>
+
+            <div class="col-xs-12 col-sm-3">
+              <span class="help-block pull-right has-error-block" *ngIf="orderForm.hasError('emailsNotMatch')"><i class="fa fa-remove"></i>Emails nao conferem</span>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+              <mt-input-container errorMessage="Campo obrigatorio e com 5 caracteres" label="Nome">
+                  <input formControlName="name" autocomplete="off"  type="text" class="form-control" placeholder="Nome">
+              </mt-input-container>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+              <mt-input-container errorMessage="E-mail invalido" label="Email">
+                  <input formControlName="email" autocomplete="off"  type="text" class="form-control" placeholder="Email">
+              </mt-input-container>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+              <mt-input-container errorMessage="Email invalido" label="Confimação do e-mail">
+                  <input  formControlName="emailConfirmation"  autocomplete="off"  type="text" class="form-control" placeholder="Confirmação de email">
+              </mt-input-container>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Endereço de Entrega:</p>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+              <mt-input-container errorMessage="Campo obrigatorio e com 5 caracteres" label="Endereço">
+                  <input autocomplete="off"  type="text" formControlName="address" class="form-control" placeholder="Endereço">
+              </mt-input-container>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+              <mt-input-container errorMessage="Obrigatorio e somente números" label="Número">
+                <input type="text" formControlName="number" autocomplete="off"  class="form-control" placeholder="Número">
+              </mt-input-container>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+              <mt-input-container label="Complemento">
+                  <input type="text" formControlName="optionalAddress" autocomplete="off" class="form-control" placeholder="Complemento">
+              </mt-input-container>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <!-- Table row -->
+        
+          <div class="row">
+            
+            <div class="col-xs-12">
+              <p class="lead">Itens do Pedido:</p>
+            </div>
+
+            <mt-order-items [items]="cartItems()"
+            (increaseQty)="increaseQty($event)"
+            (decreaseQty)="decreaseQty($event)"
+            (remove)="remove($event)"
+            ></mt-order-items>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <div class="row">
+            <!-- accepted payments column -->
+            <div class="col-sm-6 col-xs-12">
+              <p class="lead">Formas de Pagamento:</p>
+
+                <div class="form-group">
+                    <mt-radio [options]="paymentOptions" formControlName="paymentOption" ></mt-radio>
+                </div>
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 col-xs-12">
+              <p class="lead">Frete e Total:</p>
+
+              <mt-delivery-costs 
+                [delivery]="delivery" 
+                [itemsValue]="itemsValue()">
+              </mt-delivery-costs>
+            
+            </div>
+            <!-- /.col -->
+          </div>
+
+        </form>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <button 
+               (click)="checkOrder(orderForm.value)"
+               [disabled]="!orderForm.valid || cartItems().length === 0" class="btn btn-success pull-right">
+              <i class="fa fa-credit-card"></i> Concluir Pedido
+            </button>
+          </div>
+        </div>
+
+    </section>
+</section>
+<!-- FIM DO CONTEUDO-->
